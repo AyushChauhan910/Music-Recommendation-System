@@ -13,6 +13,10 @@ const Recommendations = () => {
   const [querySong, setQuerySong] = useState('');
   const [ratings, setRatings] = useState({});
 
+  // Debug: Log environment variable
+  console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+  console.log('API_BASE:', API_BASE);
+
   const getRecommendations = async (songToSearch = null) => {
     const searchTitle = songToSearch || songTitle;
     
@@ -25,19 +29,29 @@ const Recommendations = () => {
     setError('');
 
     try {
+      console.log('Making API call to:', `${API_BASE}/api/recommendations`);
+      console.log('API_BASE:', API_BASE);
+      console.log('Request data:', { song_title: searchTitle, top_n: 10 });
+      
       const response = await axios.post(`${API_BASE}/api/recommendations`, {
         song_title: searchTitle,
         top_n: 10
       });
 
+      console.log('Response received:', response.data);
+
       if (response.data.error) {
+        console.log('Error in response:', response.data.error);
         setError(response.data.error);
         setRecommendations([]);
       } else {
+        console.log('Setting recommendations:', response.data.recommendations);
         setRecommendations(response.data.recommendations || []);
         setQuerySong(response.data.query_song);
       }
     } catch (err) {
+      console.error('API call failed:', err);
+      console.error('Error details:', err.response?.data || err.message);
       setError('Failed to get recommendations. Please try again.');
       setRecommendations([]);
     } finally {

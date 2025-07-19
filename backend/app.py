@@ -189,25 +189,34 @@ def get_all_songs():
 def get_song_recommendations():
     """Get song recommendations based on input song"""
     try:
+        print("Received recommendation request")
         request_data = request.get_json()
         song_title = request_data.get('song_title', '')
         top_n = request_data.get('top_n', 10)
         mood_filter = request_data.get('mood_filter', None)
+        
+        print(f"Searching for: {song_title}")
         
         if not song_title:
             return jsonify({"error": "Song title is required"}), 400
         
         recommendations = get_recommendations(song_title, top_n, mood_filter)
         
-        if "error" in recommendations:
-            return jsonify(recommendations), 404
+        print(f"Found {len(recommendations) if isinstance(recommendations, list) else 0} recommendations")
         
-        return jsonify({
+        if isinstance(recommendations, dict) and "error" in recommendations:
+            print(f"Error: {recommendations['error']}")
+            return jsonify(recommendations), 404
+
+        response_data = {
             "query_song": song_title,
             "recommendations": recommendations
-        })
+        }
+        print(f"Returning {len(recommendations)} recommendations")
+        return jsonify(response_data)
     
     except Exception as e:
+        print(f"Exception: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/search', methods=['GET'])
