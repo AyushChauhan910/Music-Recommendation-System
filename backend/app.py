@@ -20,36 +20,58 @@ def load_data():
     """Load and preprocess the music dataset"""
     global data, tfidf_matrix, cosine_sim, tfidf
     
-    # Check if data file exists, if not create sample data
-    data_file = 'music_data.csv'
-    if not os.path.exists(data_file):
-        create_sample_data()
-    
-    data = pd.read_csv(data_file)
-    
-    # Add language column if it doesn't exist (for backward compatibility)
-    if 'language' not in data.columns:
-        data['language'] = 'English'  # Default to English for existing data
-    
-    # Add mood column if it doesn't exist (for backward compatibility)
-    if 'mood' not in data.columns:
-        data['mood'] = 'Happy'  # Default mood for existing data
-    
-    # Combine song metadata into a single feature for similarity computation
-    data['combined_features'] = (
-        data['genre'].fillna('') + ' ' +
-        data['artist_name'].fillna('') + ' ' +
-        data['track_name'].fillna('') + ' ' +
-        data['language'].fillna('') + ' ' +
-        data['mood'].fillna('')
-    )
-    
-    # Create TF-IDF matrix
-    tfidf = TfidfVectorizer(stop_words='english')
-    tfidf_matrix = tfidf.fit_transform(data['combined_features'])
-    
-    # Calculate cosine similarity
-    cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+    try:
+        print("Starting data load...")
+        
+        # Check if data file exists, if not create sample data
+        data_file = 'music_data.csv'
+        if not os.path.exists(data_file):
+            print("Data file not found, creating sample data...")
+            create_sample_data()
+        else:
+            print("Data file found, loading existing data...")
+        
+        print("Reading CSV file...")
+        data = pd.read_csv(data_file)
+        print(f"Loaded {len(data)} songs")
+        
+        # Add language column if it doesn't exist (for backward compatibility)
+        if 'language' not in data.columns:
+            print("Adding language column...")
+            data['language'] = 'English'  # Default to English for existing data
+        
+        # Add mood column if it doesn't exist (for backward compatibility)
+        if 'mood' not in data.columns:
+            print("Adding mood column...")
+            data['mood'] = 'Happy'  # Default mood for existing data
+        
+        print("Creating combined features...")
+        # Combine song metadata into a single feature for similarity computation
+        data['combined_features'] = (
+            data['genre'].fillna('') + ' ' +
+            data['artist_name'].fillna('') + ' ' +
+            data['track_name'].fillna('') + ' ' +
+            data['language'].fillna('') + ' ' +
+            data['mood'].fillna('')
+        )
+        
+        print("Creating TF-IDF matrix...")
+        # Create TF-IDF matrix
+        tfidf = TfidfVectorizer(stop_words='english')
+        tfidf_matrix = tfidf.fit_transform(data['combined_features'])
+        
+        print("Calculating cosine similarity...")
+        # Calculate cosine similarity
+        cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+        
+        print("Data load completed successfully!")
+        print(f"Data shape: {data.shape}")
+        print(f"TF-IDF matrix shape: {str(getattr(tfidf_matrix, 'shape', tfidf_matrix))}")
+        print(f"Cosine similarity matrix shape: {str(getattr(cosine_sim, 'shape', cosine_sim))}")
+        
+    except Exception as e:
+        print(f"Error loading data: {str(e)}")
+        raise e
 
 def create_sample_data():
     """Create sample music data if the dataset doesn't exist"""
@@ -137,7 +159,12 @@ def get_recommendations(song_title, top_n=10, mood_filter=None):
     """Get music recommendations based on song title with optional mood filtering"""
     global data, cosine_sim
     
+    print(f"get_recommendations called with: song_title={song_title}, top_n={top_n}, mood_filter={mood_filter}")
+    print(f"data is None: {data is None}")
+    print(f"cosine_sim is None: {cosine_sim is None}")
+    
     if data is None or cosine_sim is None:
+        print("Data not loaded, returning error")
         return {"error": "Data not loaded"}
     
     # Get the index of the song that matches the title
@@ -174,7 +201,23 @@ def get_recommendations(song_title, top_n=10, mood_filter=None):
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
-    return jsonify({"status": "healthy", "message": "Music Recommendation API is running"})
+    global data, cosine_sim
+    
+    status = "healthy"
+    message = "Music Recommendation API is running"
+    data_loaded = data is not None and cosine_sim is not None
+    
+    if not data_loaded:
+        status = "unhealthy"
+        message = "Data not loaded"
+    
+    return jsonify({
+        "status": status, 
+        "message": message,
+        "data_loaded": data_loaded,
+        "data_shape": data.shape if data is not None else None,
+        "cosine_sim_shape": cosine_sim.shape if cosine_sim is not None else None
+    })
 
 @app.route('/api/songs', methods=['GET'])
 def get_all_songs():
@@ -280,4 +323,9 @@ if __name__ == '__main__':
     load_data()
     print("Data loaded successfully!")
     print("Languages: English, Hindi, Punjabi")
-    app.run(debug=True, host='0.0.0.0', port=5000) 
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
+# Load data when the module is imported (for deployment)
+print("Loading music data on import...")
+load_data()
+print("Data loaded successfully on import!") 
