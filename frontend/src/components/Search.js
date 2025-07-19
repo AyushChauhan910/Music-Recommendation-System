@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search as SearchIcon, Music, User, Calendar, ExternalLink } from 'lucide-react';
 import axios from 'axios';
 
+const API_BASE = process.env.REACT_APP_API_URL || '';
+
 const Search = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -19,7 +21,7 @@ const Search = () => {
     setError('');
 
     try {
-      const response = await axios.get(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+      const response = await axios.get(`${API_BASE}/api/search?q=${encodeURIComponent(searchQuery)}`);
       setResults(response.data.results || []);
     } catch (err) {
       setError('Failed to search songs. Please try again.');

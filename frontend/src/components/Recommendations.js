@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Music, User, Calendar, Play, Sparkles, TrendingUp, ThumbsUp, ThumbsDown, ExternalLink } from 'lucide-react';
 import axios from 'axios';
 
+const API_BASE = process.env.REACT_APP_API_URL || '';
+
 const Recommendations = () => {
   const [songTitle, setSongTitle] = useState('');
   const [recommendations, setRecommendations] = useState([]);
@@ -23,7 +25,7 @@ const Recommendations = () => {
     setError('');
 
     try {
-      const response = await axios.post('/api/recommendations', {
+      const response = await axios.post(`${API_BASE}/api/recommendations`, {
         song_title: searchTitle,
         top_n: 10
       });
