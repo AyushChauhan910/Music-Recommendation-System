@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Music, User, Calendar, Play, Sparkles, TrendingUp } from 'lucide-react';
+import { Heart, Music, User, Calendar, Play, Sparkles, TrendingUp, ThumbsUp, ThumbsDown, ExternalLink } from 'lucide-react';
 import axios from 'axios';
 
 const Recommendations = () => {
@@ -9,6 +9,7 @@ const Recommendations = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [querySong, setQuerySong] = useState('');
+  const [ratings, setRatings] = useState({});
 
   const getRecommendations = async (songToSearch = null) => {
     const searchTitle = songToSearch || songTitle;
@@ -40,6 +41,16 @@ const Recommendations = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRating = (songId, rating) => {
+    setRatings(prev => ({
+      ...prev,
+      [songId]: rating
+    }));
+    
+    // Here you could send the rating to your backend
+    console.log(`Rated song ${songId} as ${rating}`);
   };
 
   const handleSubmit = (e) => {
@@ -336,12 +347,48 @@ const Recommendations = () => {
                       <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getGenreColor(song.genre)}`}>
                         {song.genre}
                       </span>
+                      {song.mood && (
+                        <span className="px-3 py-1 rounded-full text-xs font-medium text-white bg-purple-500">
+                          {song.mood}
+                        </span>
+                      )}
+                      <div className="flex items-center space-x-1">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleRating(`${song.track_name}-${song.artist_name}`, 'like')}
+                          className={`p-1 rounded transition-colors ${
+                            ratings[`${song.track_name}-${song.artist_name}`] === 'like'
+                              ? 'text-green-400 bg-green-400/20'
+                              : 'text-gray-400 hover:text-green-400'
+                          }`}
+                        >
+                          <ThumbsUp className="h-4 w-4" />
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => handleRating(`${song.track_name}-${song.artist_name}`, 'dislike')}
+                          className={`p-1 rounded transition-colors ${
+                            ratings[`${song.track_name}-${song.artist_name}`] === 'dislike'
+                              ? 'text-red-400 bg-red-400/20'
+                              : 'text-gray-400 hover:text-red-400'
+                          }`}
+                        >
+                          <ThumbsDown className="h-4 w-4" />
+                        </motion.button>
+                      </div>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="p-2 bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+                        onClick={() => {
+                          const searchQuery = encodeURIComponent(`${song.track_name} ${song.artist_name}`);
+                          window.open(`https://open.spotify.com/search/${searchQuery}`, '_blank');
+                        }}
+                        className="p-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+                        title="Listen on Spotify"
                       >
-                        <Play className="h-5 w-5 text-white" />
+                        <ExternalLink className="h-5 w-5 text-white" />
                       </motion.button>
                     </div>
                   </div>

@@ -93,7 +93,7 @@ const Header = () => {
             height: isMenuOpen ? 'auto' : 0,
           }}
           transition={{ duration: 0.3 }}
-          className="md:hidden overflow-hidden"
+          className="md:hidden overflow-hidden border-t border-gray-700 mt-4"
         >
           <div className="py-4 space-y-2">
             {navItems.map((item) => {

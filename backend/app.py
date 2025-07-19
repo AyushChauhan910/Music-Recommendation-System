@@ -31,12 +31,17 @@ def load_data():
     if 'language' not in data.columns:
         data['language'] = 'English'  # Default to English for existing data
     
+    # Add mood column if it doesn't exist (for backward compatibility)
+    if 'mood' not in data.columns:
+        data['mood'] = 'Happy'  # Default mood for existing data
+    
     # Combine song metadata into a single feature for similarity computation
     data['combined_features'] = (
         data['genre'].fillna('') + ' ' +
         data['artist_name'].fillna('') + ' ' +
         data['track_name'].fillna('') + ' ' +
-        data['language'].fillna('')
+        data['language'].fillna('') + ' ' +
+        data['mood'].fillna('')
     )
     
     # Create TF-IDF matrix
@@ -111,14 +116,25 @@ def create_sample_data():
             'Hindi', 'Hindi', 'Hindi', 'Hindi', 'Hindi',
             # Punjabi Language
             'Punjabi', 'Punjabi', 'Punjabi', 'Punjabi', 'Punjabi', 'Punjabi', 'Punjabi', 'Punjabi'
+        ],
+        'mood': [
+            # English Moods
+            'Epic', 'Melancholic', 'Inspirational', 'Epic', 'Rebellious', 'Uplifting', 'Angry', 'Melancholic',
+            'Happy', 'Energetic', 'Rebellious', 'Empowering', 'Soulful', 'Happy', 'Thoughtful', 'Mysterious',
+            'Experimental', 'Happy', 'Energetic', 'Psychedelic',
+            # Hindi Moods
+            'Romantic', 'Energetic', 'Melancholic', 'Romantic', 'Romantic', 'Romantic', 'Romantic', 'Romantic',
+            'Romantic', 'Romantic', 'Romantic', 'Soulful', 'Romantic',
+            # Punjabi Moods
+            'Happy', 'Energetic', 'Romantic', 'Confident', 'Romantic', 'Happy', 'Energetic', 'Confident'
         ]
     }
     
     df = pd.DataFrame(sample_data)
     df.to_csv('music_data.csv', index=False)
 
-def get_recommendations(song_title, top_n=10):
-    """Get music recommendations based on song title"""
+def get_recommendations(song_title, top_n=10, mood_filter=None):
+    """Get music recommendations based on song title with optional mood filtering"""
     global data, cosine_sim
     
     if data is None or cosine_sim is None:
@@ -148,6 +164,11 @@ def get_recommendations(song_title, top_n=10):
     
     # Return recommended songs
     recommendations = data.iloc[song_indices]
+    
+    # Apply mood filter if specified
+    if mood_filter:
+        recommendations = recommendations[recommendations['mood'].str.lower() == mood_filter.lower()]
+    
     return recommendations.to_dict(orient='records')
 
 @app.route('/api/health', methods=['GET'])
@@ -161,7 +182,7 @@ def get_all_songs():
     if data is None:
         return jsonify({"error": "Data not loaded"}), 500
 
-    songs = data.loc[:, ['track_name', 'artist_name', 'genre', 'year', 'language']].to_dict('records')
+    songs = data.loc[:, ['track_name', 'artist_name', 'genre', 'year', 'language', 'mood']].to_dict('records')
     return jsonify({"songs": songs})
 
 @app.route('/api/recommendations', methods=['POST'])
@@ -171,11 +192,12 @@ def get_song_recommendations():
         request_data = request.get_json()
         song_title = request_data.get('song_title', '')
         top_n = request_data.get('top_n', 10)
+        mood_filter = request_data.get('mood_filter', None)
         
         if not song_title:
             return jsonify({"error": "Song title is required"}), 400
         
-        recommendations = get_recommendations(song_title, top_n)
+        recommendations = get_recommendations(song_title, top_n, mood_filter)
         
         if "error" in recommendations:
             return jsonify(recommendations), 404
@@ -205,7 +227,7 @@ def search_songs():
         (data['artist_name'].str.lower().str.contains(query))
     ]
     
-    results = matching_songs.loc[:, ['track_name', 'artist_name', 'genre', 'year', 'language']].to_dict('records')
+    results = matching_songs.loc[:, ['track_name', 'artist_name', 'genre', 'year', 'language', 'mood']].to_dict('records')
     return jsonify({"results": results})
 
 @app.route('/api/genres', methods=['GET'])
@@ -234,6 +256,15 @@ def get_languages():
     
     languages = data['language'].unique().tolist()
     return jsonify({"languages": languages})
+
+@app.route('/api/moods', methods=['GET'])
+def get_moods():
+    """Get all available moods"""
+    if data is None:
+        return jsonify({"error": "Data not loaded"}), 500
+    
+    moods = data['mood'].unique().tolist()
+    return jsonify({"moods": moods})
 
 if __name__ == '__main__':
     print("Loading music data...")

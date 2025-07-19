@@ -1,42 +1,42 @@
-track_name,artist_name,genre,year,language
-Bohemian Rhapsody,Queen,Rock,1975,English
-Hotel California,Eagles,Rock,1976,English
-Imagine,John Lennon,Pop,1971,English
-Stairway to Heaven,Led Zeppelin,Rock,1971,English
-Like a Rolling Stone,Bob Dylan,Folk Rock,1965,English
-Hey Jude,The Beatles,Pop,1968,English
-Smells Like Teen Spirit,Nirvana,Grunge,1991,English
-Yesterday,The Beatles,Pop,1965,English
-Good Vibrations,The Beach Boys,Pop,1966,English
-Johnny B. Goode,Chuck Berry,Rock,1958,English
-My Generation,The Who,Rock,1965,English
-Respect,Aretha Franklin,Soul,1967,English
-What's Going On,Marvin Gaye,Soul,1971,English
-I Want to Hold Your Hand,The Beatles,Pop,1963,English
-Blowin' in the Wind,Bob Dylan,Folk,1963,English
-Light My Fire,The Doors,Rock,1967,English
-A Day in the Life,The Beatles,Pop,1967,English
-Help!,The Beatles,Pop,1965,English
-Satisfaction,The Rolling Stones,Rock,1965,English
-Purple Haze,Jimi Hendrix,Rock,1967,English
-Tum Hi Ho,Arijit Singh,Bollywood,2013,Hindi
-Chaiyya Chaiyya,A.R. Rahman,Bollywood,1998,Hindi
-Kal Ho Naa Ho,Sonu Nigam,Bollywood,2003,Hindi
-Tere Sang Yaara,Atif Aslam,Bollywood,2017,Hindi
-Raabta,Pritam,Bollywood,2017,Hindi
-Gerua,Arijit Singh,Bollywood,2015,Hindi
-Agar Tum Saath Ho,Arijit Singh,Bollywood,2015,Hindi
-Raataan Lambiyan,Jubin Nautiyal,Bollywood,2021,Hindi
-Kesariya,Arijit Singh,Bollywood,2022,Hindi
-Tum Se Hi,Mohit Chauhan,Bollywood,2007,Hindi
-Tum Mile,Neeraj Shridhar,Bollywood,2009,Hindi
-Tere Bina,A.R. Rahman,Bollywood,2007,Hindi
-Tum Hi Aana,Jubin Nautiyal,Bollywood,2019,Hindi
-Laung Laachi,Mannat Noor,Punjabi Pop,2018,Punjabi
-Patiala Peg,Diljit Dosanjh,Punjabi Pop,2015,Punjabi
-Jatt & Juliet,Diljit Dosanjh,Punjabi Pop,2012,Punjabi
-G.O.A.T.,Diljit Dosanjh,Punjabi Pop,2020,Punjabi
-Lover,Diljit Dosanjh,Punjabi Pop,2020,Punjabi
-Umbrella,Diljit Dosanjh,Punjabi Pop,2020,Punjabi
-Do You Know,Diljit Dosanjh,Punjabi Pop,2020,Punjabi
-Born to Shine,Diljit Dosanjh,Punjabi Pop,2020,Punjabi
+track_name,artist_name,genre,year,language,mood
+Bohemian Rhapsody,Queen,Rock,1975,English,Epic
+Hotel California,Eagles,Rock,1976,English,Melancholic
+Imagine,John Lennon,Pop,1971,English,Inspirational
+Stairway to Heaven,Led Zeppelin,Rock,1971,English,Epic
+Like a Rolling Stone,Bob Dylan,Folk Rock,1965,English,Rebellious
+Hey Jude,The Beatles,Pop,1968,English,Uplifting
+Smells Like Teen Spirit,Nirvana,Grunge,1991,English,Angry
+Yesterday,The Beatles,Pop,1965,English,Melancholic
+Good Vibrations,The Beach Boys,Pop,1966,English,Happy
+Johnny B. Goode,Chuck Berry,Rock,1958,English,Energetic
+My Generation,The Who,Rock,1965,English,Rebellious
+Respect,Aretha Franklin,Soul,1967,English,Empowering
+What's Going On,Marvin Gaye,Soul,1971,English,Soulful
+I Want to Hold Your Hand,The Beatles,Pop,1963,English,Happy
+Blowin' in the Wind,Bob Dylan,Folk,1963,English,Thoughtful
+Light My Fire,The Doors,Rock,1967,English,Mysterious
+A Day in the Life,The Beatles,Pop,1967,English,Experimental
+Help!,The Beatles,Pop,1965,English,Happy
+Satisfaction,The Rolling Stones,Rock,1965,English,Energetic
+Purple Haze,Jimi Hendrix,Rock,1967,English,Psychedelic
+Tum Hi Ho,Arijit Singh,Bollywood,2013,Hindi,Romantic
+Chaiyya Chaiyya,A.R. Rahman,Bollywood,1998,Hindi,Energetic
+Kal Ho Naa Ho,Sonu Nigam,Bollywood,2003,Hindi,Melancholic
+Tere Sang Yaara,Atif Aslam,Bollywood,2017,Hindi,Romantic
+Raabta,Pritam,Bollywood,2017,Hindi,Romantic
+Gerua,Arijit Singh,Bollywood,2015,Hindi,Romantic
+Agar Tum Saath Ho,Arijit Singh,Bollywood,2015,Hindi,Romantic
+Raataan Lambiyan,Jubin Nautiyal,Bollywood,2021,Hindi,Romantic
+Kesariya,Arijit Singh,Bollywood,2022,Hindi,Romantic
+Tum Se Hi,Mohit Chauhan,Bollywood,2007,Hindi,Romantic
+Tum Mile,Neeraj Shridhar,Bollywood,2009,Hindi,Romantic
+Tere Bina,A.R. Rahman,Bollywood,2007,Hindi,Soulful
+Tum Hi Aana,Jubin Nautiyal,Bollywood,2019,Hindi,Romantic
+Laung Laachi,Mannat Noor,Punjabi Pop,2018,Punjabi,Happy
+Patiala Peg,Diljit Dosanjh,Punjabi Pop,2015,Punjabi,Energetic
+Jatt & Juliet,Diljit Dosanjh,Punjabi Pop,2012,Punjabi,Romantic
+G.O.A.T.,Diljit Dosanjh,Punjabi Pop,2020,Punjabi,Confident
+Lover,Diljit Dosanjh,Punjabi Pop,2020,Punjabi,Romantic
+Umbrella,Diljit Dosanjh,Punjabi Pop,2020,Punjabi,Happy
+Do You Know,Diljit Dosanjh,Punjabi Pop,2020,Punjabi,Energetic
+Born to Shine,Diljit Dosanjh,Punjabi Pop,2020,Punjabi,Confident

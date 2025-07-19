@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search as SearchIcon, Music, User, Calendar, Play } from 'lucide-react';
+import { Search as SearchIcon, Music, User, Calendar, ExternalLink } from 'lucide-react';
 import axios from 'axios';
 
 const Search = () => {
@@ -55,6 +55,10 @@ const Search = () => {
       'Blues': 'bg-indigo-500',
       'Folk': 'bg-orange-500',
       'Soul': 'bg-rose-500',
+      'Folk Rock': 'bg-orange-500',
+      'Grunge': 'bg-gray-500',
+      'Bollywood': 'bg-purple-500',
+      'Punjabi Pop': 'bg-orange-500',
     };
     return colors[genre] || 'bg-gray-500';
   };
@@ -172,12 +176,22 @@ const Search = () => {
                       <span className={`px-3 py-1 rounded-full text-xs font-medium text-white ${getGenreColor(song.genre)}`}>
                         {song.genre}
                       </span>
+                      {song.mood && (
+                        <span className="px-3 py-1 rounded-full text-xs font-medium text-white bg-purple-500">
+                          {song.mood}
+                        </span>
+                      )}
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="p-2 bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+                        onClick={() => {
+                          const searchQuery = encodeURIComponent(`${song.track_name} ${song.artist_name}`);
+                          window.open(`https://open.spotify.com/search/${searchQuery}`, '_blank');
+                        }}
+                        className="p-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+                        title="Listen on Spotify"
                       >
-                        <Play className="h-5 w-5 text-white" />
+                        <ExternalLink className="h-5 w-5 text-white" />
                       </motion.button>
                     </div>
                   </div>
