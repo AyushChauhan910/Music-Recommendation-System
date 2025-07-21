@@ -6,7 +6,6 @@ A beautiful, modern music recommendation system with a dark theme and smooth ani
 
 - **AI-Powered Recommendations**: Content-based filtering using TF-IDF and cosine similarity
 - **Music Player Integration**: Mini player with play/pause controls and volume
-- **Mood Filtering**: Filter recommendations by mood (happy, sad, energetic, etc.)
 - **Recommendation Ratings**: Rate recommendations with thumbs up/down
 - **Mobile Responsive**: Optimized for all devices with touch-friendly interface
 - **Beautiful Dark UI**: Modern, responsive design with smooth animations
