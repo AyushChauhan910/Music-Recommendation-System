@@ -29,7 +29,7 @@ A beautiful, modern music recommendation system with a dark theme and smooth ani
 - **NumPy** - Numerical computing
 - **Flask-CORS** - Cross-origin resource sharing
 
-### Live Link
+### Live Demo
 https://music-recommendation-system-theta.vercel.app/
 
 ## 📁 Project Structure
